@@ -51,9 +51,30 @@ char ** ganador(char *(*jugador1),char *(*jugador2)){
 	}
 }
 
-int main(){
+void jugarTorneo(char *jugadores[][2][2][2],int njugadores){
 
-    char nombre1[50],jugada1[2],nombre2[50],jugada2[2];
+	char **jugadoresL[njugadores];
+	char **arr = (char **)jugadores;
+
+	int pos = 0;
+	for(int i=0;i<njugadores;i++){
+		char *jug[] = {*(arr+pos),*(arr+(pos+1))};
+		printf("%s - %s\n",jug[0],jug[1]);
+		jugadoresL[i] = jug;
+		pos+=2;
+	}
+
+	for(int i=0;i<njugadores;i++){
+		printf("%s - %s\n",**njugadores[0],**njugadores[1]);
+	}
+
+}
+
+int main(int argc, char **argv){
+
+	/*Descomentar para probar la primera parte*/
+
+    /*char nombre1[50],jugada1[2],nombre2[50],jugada2[2];
 
     while(1){
     	scanf("%s %s %s %s",nombre1,jugada1,nombre2,jugada2);
@@ -61,7 +82,41 @@ int main(){
     	char *jugador2[] = {nombre2,jugada2};
     	char **gan = ganador(jugador1,jugador2);
     	printf("Gano: %s - %s\n", gan[0],gan[1]);
-    }
+    }*/
 
+	/*
+	* Cada 2 elementos hay dos elementos que a su vez tienen dos elementos
+	* Un [] del array tiene dos arrays, cada array con dos arrays de chars
+	*/
+    char *juego2[][2][2][2] = {
+        {
+            {
+            	{"Armando","P"},
+            	{"Dave","T"}
+            },
+            {
+            	{"Richard", "R"}, 
+            	{"Michael", "T"}
+            }
+        },
+
+        {
+            {
+            	{"Allen", "T"},
+            	{"Omer", "P"}
+            },
+            {
+            	{"David E.", "R"},
+            	{"Richard X.", "P"}
+            }
+        }
+    };
+
+    jugarTorneo(juego2,8);
+
+    
+    /*printf("%s\n", juego2[0][0][0][0]);
+    char **arr = (char **)juego2;
+    printf("%s\n", *(arr+3));*/
     
 }
