@@ -23,8 +23,7 @@ void printLibro(Libro l){
 void addAutor(Libro *p_libro,Autor a){
 	Autor *p_aux = p_libro->p_autor;
 	if(p_aux == NULL){
-		p_aux->p_nombre = a.p_nombre;
-		p_aux->siguiente = NULL;
+		p_libro->p_autor = &a;
 	}
 }
 
@@ -32,5 +31,5 @@ int main(){
 	Autor a = {"JK",NULL};
 	Libro l = {"Harry ","JSAD",28193,NULL};
 	addAutor(&l,a);
-	//printLibro(l);
+	printLibro(l);
 }
