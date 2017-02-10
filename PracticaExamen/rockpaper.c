@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <strings.h>
 
 int whoWins(char jugada,char jugada2){
 	switch(jugada){
@@ -43,7 +44,7 @@ char ** ganador(char *(*jugador1),char *(*jugador2)){
 	}else{
 		int who = whoWins(j1[0],j2[0]);
 		if(who == 1){
-			printf("%s %s\n", jugador1[0],jugador1[1]);
+			///printf("%s %s\n", jugador1[0],jugador1[1]);
 			return jugador1;
 		}else{
 			return jugador2;
@@ -51,23 +52,74 @@ char ** ganador(char *(*jugador1),char *(*jugador2)){
 	}
 }
 
-void jugarTorneo(char *jugadores[][2][2][2],int njugadores){
+char ** jugarTorneo(char *jugadores[][2][2][2],int njugadores){
 
-	char **jugadoresL[njugadores];
 	char **arr = (char **)jugadores;
+	int marcador[njugadores];
+	int nPares = njugadores/4;
 
-	int pos = 0;
+	do{	
+		char **jugador1, **jugador2;
+		for(int i=0;i<njugadores;i++){
+			int posi,posk;
+			posi = 0;
+			posk = 0;
+			if(marcador[i]==0){
+				int pp = i*2;
+				char *jug[] = {*(arr+pp),*(arr+(pp+1))};
+				jugador1 = jug;
+				posi = i;
+			}
+
+			for(int k=i+1;k<njugadores;k++){
+				if(marcador[k]==0){
+					int pp = k*2;
+					char *jug[] = {*(arr+pp),*(arr+(pp+1))};
+					jugador2 = jug;
+					posk = k;
+					break;
+				}
+			}
+			//printf("%s VS %s \n", jugador1[0] , jugador2[0]);
+			char **winner = ganador(jugador1,jugador2);
+			//printf("%s - %s \n", winner[0] , winner[1]);
+			if(strcmp(winner[0], jugador1[0]) == 0){
+				/*
+				* Verificamos quien gano y marcamos al perdedor en el marcador
+				* Se usa true para marcar que perdio para no hacer un recorrido
+				* inicial donde se marquen todos como true.
+				*/
+				marcador[posk] = 1;
+			}else{
+				marcador[posi] = 1;
+			}
+
+		}
+
+		nPares/=4;
+
+	}while(nPares>=1);
+
+	char **jugador1, **jugador2;
+	int posi = 0;
 	for(int i=0;i<njugadores;i++){
-		char *jug[] = {*(arr+pos),*(arr+(pos+1))};
-		printf("%s - %s\n",jug[0],jug[1]);
-		jugadoresL[i] = jug;
-		pos+=2;
+		if(marcador[i]==0){
+			int pp = i*2;
+			char *jug[] = {*(arr+pp),*(arr+(pp+1))};
+			jugador1 = jug;
+			posi = i;
+			break;
+		}
 	}
-
-	for(int i=0;i<njugadores;i++){
-		printf("%s - %s\n",**njugadores[0],**njugadores[1]);
+	for(int i=posi+1;i<njugadores;i++){
+		if(marcador[i]==0){
+			int pp = i*2;
+			char *jug[] = {*(arr+pp),*(arr+(pp+1))};
+			jugador2 = jug;
+			break;
+		}
 	}
-
+	return ganador(jugador1,jugador2);
 }
 
 int main(int argc, char **argv){
@@ -92,31 +144,28 @@ int main(int argc, char **argv){
         {
             {
             	{"Armando","P"},
-            	{"Dave","T"}
+            	{"Dave","S"}
             },
             {
             	{"Richard", "R"}, 
-            	{"Michael", "T"}
+            	{"Michael", "S"}
             }
         },
 
         {
             {
-            	{"Allen", "T"},
+            	{"Allen", "S"},
             	{"Omer", "P"}
             },
             {
-            	{"David E.", "R"},
-            	{"Richard X.", "P"}
+            	{"Carlos", "R"},
+            	{"Juan.", "P"}
             }
         }
     };
 
-    jugarTorneo(juego2,8);
+    char **gan = jugarTorneo(juego2,8);
 
-    
-    /*printf("%s\n", juego2[0][0][0][0]);
-    char **arr = (char **)juego2;
-    printf("%s\n", *(arr+3));*/
+    printf("El ganador es: %s - %s\n", gan[0],gan[1]);
     
 }
