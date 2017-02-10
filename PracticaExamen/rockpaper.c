@@ -52,15 +52,24 @@ char ** ganador(char *(*jugador1),char *(*jugador2)){
 	}
 }
 
+
 char ** jugarTorneo(char *jugadores[][2][2][2],int njugadores){
 
 	char **arr = (char **)jugadores;
 	int marcador[njugadores];
 	int nPares = njugadores/4;
+	int contador = 0;
+	int tirada = 2;
 
+	for(int w=0;w<njugadores;w++){
+		if(marcador[w]==0){
+			contador++;
+		}
+	}
+	
 	do{	
 		char **jugador1, **jugador2;
-		for(int i=0;i<njugadores;i++){
+		for(int i=0;i<njugadores;i){
 			int posi,posk;
 			posi = 0;
 			posk = 0;
@@ -71,7 +80,7 @@ char ** jugarTorneo(char *jugadores[][2][2][2],int njugadores){
 				posi = i;
 			}
 
-			for(int k=i+1;k<njugadores;k++){
+			for(int k=i+1;k<njugadores-1;k++){
 				if(marcador[k]==0){
 					int pp = k*2;
 					char *jug[] = {*(arr+pp),*(arr+(pp+1))};
@@ -80,7 +89,6 @@ char ** jugarTorneo(char *jugadores[][2][2][2],int njugadores){
 					break;
 				}
 			}
-			//printf("%s VS %s \n", jugador1[0] , jugador2[0]);
 			char **winner = ganador(jugador1,jugador2);
 			//printf("%s - %s \n", winner[0] , winner[1]);
 			if(strcmp(winner[0], jugador1[0]) == 0){
@@ -94,19 +102,39 @@ char ** jugarTorneo(char *jugadores[][2][2][2],int njugadores){
 				marcador[posi] = 1;
 			}
 
+			if(tirada==2){
+				i+=2;
+			}else{
+				i++;
+			}
+		}
+		if(tirada==2){
+			tirada=1;
 		}
 
-		nPares/=4;
+		contador = 0;
+		for(int w=0;w<njugadores;w++){
+			if(marcador[w]==0){
+				contador++;
+			}
+		}
 
-	}while(nPares>=1);
+	}while(contador>4);
 
-	char **jugador1, **jugador2;
+
+	
+
+	for(int i=0;i<njugadores;i++){
+		printf("%d\n", marcador[i]);
+	}
+
+	char **jugador3, **jugador4,**jugador5, **jugador6;
 	int posi = 0;
 	for(int i=0;i<njugadores;i++){
 		if(marcador[i]==0){
 			int pp = i*2;
 			char *jug[] = {*(arr+pp),*(arr+(pp+1))};
-			jugador1 = jug;
+			jugador3 = jug;
 			posi = i;
 			break;
 		}
@@ -115,11 +143,38 @@ char ** jugarTorneo(char *jugadores[][2][2][2],int njugadores){
 		if(marcador[i]==0){
 			int pp = i*2;
 			char *jug[] = {*(arr+pp),*(arr+(pp+1))};
-			jugador2 = jug;
+			jugador4 = jug;
+			posi = i;
 			break;
 		}
 	}
-	return ganador(jugador1,jugador2);
+
+	for(int i=0;i<njugadores;i++){
+		if(marcador[i]==0){
+			int pp = i*2;
+			char *jug[] = {*(arr+pp),*(arr+(pp+1))};
+			jugador5 = jug;
+			posi = i;
+			break;
+		}
+	}
+	for(int i=posi+1;i<njugadores;i++){
+		if(marcador[i]==0){
+			int pp = i*2;
+			char *jug[] = {*(arr+pp),*(arr+(pp+1))};
+			jugador6 = jug;
+			posi = i;
+			break;
+		}
+	}
+
+	char **finalista1, **finalista2;
+
+
+	finalista1 = ganador(jugador3,jugador4);
+	finalista2 = ganador(jugador5,jugador6);
+
+	return ganador(finalista1,finalista2); 
 }
 
 int main(int argc, char **argv){
