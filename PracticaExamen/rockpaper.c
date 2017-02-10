@@ -124,9 +124,9 @@ char ** jugarTorneo(char *jugadores[][2][2][2],int njugadores){
 
 	
 
-	for(int i=0;i<njugadores;i++){
+	/*for(int i=0;i<njugadores;i++){
 		printf("%d\n", marcador[i]);
-	}
+	}*/
 
 	char **jugador3, **jugador4,**jugador5, **jugador6;
 	int posi = 0;
@@ -139,6 +139,7 @@ char ** jugarTorneo(char *jugadores[][2][2][2],int njugadores){
 			break;
 		}
 	}
+
 	for(int i=posi+1;i<njugadores;i++){
 		if(marcador[i]==0){
 			int pp = i*2;
@@ -214,12 +215,34 @@ int main(int argc, char **argv){
             },
             {
             	{"Carlos", "R"},
-            	{"Juan.", "P"}
+            	{"Juan", "P"}
+            }
+        },
+
+        {
+            {
+            	{"Maru", "S"},
+            	{"Pablo", "R"}
+            },
+            {
+            	{"Mauricio", "R"},
+            	{"Peter", "P"}
+            }
+        },
+
+        {
+            {
+            	{"Haydee", "S"},
+            	{"Rizo", "S"}
+            },
+            {
+            	{"Alucard", "P"},
+            	{"Hershey.", "S"}
             }
         }
     };
 
-    char **gan = jugarTorneo(juego2,8);
+    char **gan = jugarTorneo(juego2,16);
 
     printf("El ganador es: %s - %s\n", gan[0],gan[1]);
     
