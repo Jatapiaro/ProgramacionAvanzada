@@ -1,5 +1,17 @@
 #include <stdio.h>
 
+/*
+*Object* Object_new(int id, int value) { 
+  Object* p = malloc(sizeof(Object));
+  p->id = id;
+  p->value = value;
+  return p;
+}
+
+...
+Object* p1 = Object_new(id++, myValue);
+*/
+
 typedef struct favs{
 	char *food;
 	char *friend;
