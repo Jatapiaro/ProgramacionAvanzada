@@ -1,0 +1,8 @@
+#!/bin/csh
+echo 'HolaMundo' 
+./conversion $1 
+@ a = $? + 0 
+echo $a 
+if ($a == 0) then 
+    echo 'no hubo errores' 
+endif
