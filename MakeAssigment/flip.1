@@ -1,0 +1,198 @@
+FLIP(1)
+FLIP(1)
+
+
+
+NAME
+       flip â do newline conversions between **IX and MSâDOS
+
+SYNOPSIS
+       flip âh
+       flip âumvtsbz file ...
+
+DESCRIPTION
+       Flip  is  a  file  interchange  program that converts text
+file formats
+       between	**IX  and  MSâDOS.  It converts lines ending with
+carriageâreturn
+       (CR)  and  linefeed  (LF)   to	lines  ending  with  just
+linefeed, or vice
+       versa.
+
+       Flip has the following features.
+
+       o       If  a  file  contains isolated CR  characters  for
+underlining  or
+	      overprinting, flip does not change them.
+
+       o      When  asked to convert a file to	the  same  format
+that it already
+	      has,  flip causes no change to the file.	 Thus  to
+convert  all
+	      files to **IX format you can type
+
+		 flip âu *.*  (under MSâDOS)
+		 flip âu *    (under **IX)
+
+	    and  all  files will  end  up  right,  regardless  of
+whether they were
+	    in MSâDOS or in **IX format to begin with.	This also
+works in the
+	    opposite direction.
+
+       o    Flip preserves file  timestamps.   You  can  override
+this.
+
+       o    Flip  is  written in C and will compile and run under
+MSâDOS/Turbo
+	    C, 4.3BSD, and System V.
+
+       o    Flip accepts wildcards and multiple filenames on  the
+command line.
+
+       o     If   a   user   interrupt	aborts	Flip, it does not
+leave behind any
+	    garbage files or cause corruption of the files  being
+converted.
+
+       o     Flip  will  normally refuse to convert binary files.
+You can  overâ
+	    ride this.
+
+       o    When  converting  from   MSâDOS   to   **IX   format,
+flip removes any
+	    trailing control Z (the last character in the  file),
+but  leaves
+	    embedded  control Z characters unchanged.  This mini‐
+mizes the posâ
+	    sibility  of  accidentally	converting  a binary file
+that contains  a
+	    control  Z near the beginning.  You can override this
+and ask flip
+	    to	 recognize   the   first   control   Z	found  as
+endâofâfile.
+
+       o    Flip can be asked to strip the high (parity)  bit  as
+it converts  a
+	    file.
+
+       Flip is normally invoked as:
+
+	    flip âumhvtb file ...
+
+
+       One   of âu, âm, or âh is required.  Switches may be given
+separately or
+       combined together after a dash.	For  example,  the  three
+command  lines
+       given below are equivalent:
+
+	    flip âuvt *.c
+	    flip âu âv ât *.c
+	    flip âu âvt *.c
+
+       The meanings of the switches are as follows.
+
+       âu      convert	to  **IX  format (CR LF => LF, lone CR or
+LF unchanged,
+	      trailing control Z removed, embedded control Z  un‐
+changed)
+
+       âm     convert to MSâDOS format (lone LF => CR LF, lone CR
+unchanged)
+
+       âh     give a help message
+
+       âv     be verbose, print filenames as they are processed
+
+       ât     touch files (donât preserve timestamps)
+
+       âs     strip high bit
+
+       âb     convert binary files too	(else  binary  files  are
+left unchanged)
+
+       âz     truncate file at first control Z encountered
+
+       On  systems  that allow a program to know  its  own  name,
+flip  may  be
+       renamed	(or  linked)  to a file called toix (or  toix.exe
+under MSâDOS)
+       for  conversion	to **IX format, or to a file called  toms
+(or  toms.exe
+       under  MSâDOS)  for conversion to MSâDOS format.  When in‐
+voked with the
+       name  toix  or  toms,  flip will act as if it were invoked
+with the  âu  or
+       âm option respectively.
+
+COPYRIGHT
+       Both  this  documentation  and  flip  are  Copyright  1989
+Rahul Dhesi, all
+       rights  reserved.   Permission  is  granted to copy,  use,
+and  distribute
+       for  any  commercial  or  noncommercial	purpose in accor‐
+dance with the
+       requirements  of  version  1.0  of  the GNU General Public
+license.
+
+       Note:  This software has not been  endorsed  by	the  Free
+Software Foundaâ
+       tion, the creator of the GNU license, and I am not affili‐
+ated with that
+       organization.
+
+AUTHOR
+       Rahul Dhesi
+
+
+
+7th	 Edition			    Jul      4,      1989
+FLIP(1)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
