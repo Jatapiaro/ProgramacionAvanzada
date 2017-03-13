@@ -71,24 +71,29 @@ int insercion(Estudiante estudiantes[1000],Estudiante e,int registros,int pequen
 
 	int j = 0;
 	char *minor = estudiantes[0].nombre;
+	/*
+	* Recorremos el arreglo para buscar el menor
+	*/
 	for(int i=0;i<=registros;i++){
 		if(strcmp(estudiantes[i].nombre,minor)<0){
 			j = i;
 			minor = estudiantes[j].nombre;
 		}
 	}
+	/*
+	*Metemos en el file el menor
+	*/
 	fprintf(fp, "%d\n",j);
+	/*
+	*Movemos el tamaño del int mas uno (\n) el
+	*apuntador, para empezar a escribir despúes
+	*/
 	long w = sizeof(int)+1;
 	fseek(fp,w,SEEK_END);
 	for(int i=0;i<=registros;i++){
 		fseek(fp,i*sizeof(Estudiante),SEEK_END);
 		fprintf(fp, "%s %s %s %hd\n", estudiantes[i].matricula,estudiantes[i].nombre,estudiantes[i].correo,estudiantes[i].siguiente);
 	}
-	/*
-
-			fseek(fp,i*sizeof(Estudiante),SEEK_END);
-		fprintf(fp, "%s %s %s %hd\n", estudiantes[i].matricula,estudiantes[i].nombre,estudiantes[i].correo,estudiantes[i].siguiente);
-	*/
 	fclose(fp);
 	return j;
 
@@ -127,7 +132,6 @@ int main()
 
 		Estudiante es = lee(alumno1, i);
 		menor = insercion(est,es,i,menor);
-		//printf("%d\n", menor);
 		
 	}
 	return 0;
