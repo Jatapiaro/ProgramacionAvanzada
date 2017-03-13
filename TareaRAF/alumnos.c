@@ -99,6 +99,14 @@ int insercion(Estudiante estudiantes[1000],Estudiante e,int registros,int pequen
 
 }
 
+Estudiante stdinLec(){
+	printf("Escribe matricula nombre correo separados por una espacio\n");
+	Estudiante e;
+	scanf("%s %s %s",e.matricula,e.nombre,e.correo);
+	e.siguiente = 0;
+	return e;
+}
+
 Estudiante lee(FILE* archivo, int reg){
 	long pos = 77 *reg;
 	Estudiante e;
@@ -127,12 +135,28 @@ int main()
 
 
 	int menor = -1;
-
-	for(int i=0; i<regs;i++){
-
+	int i;
+	for(i=0; i<regs;i++){
 		Estudiante es = lee(alumno1, i);
 		menor = insercion(est,es,i,menor);
-		
 	}
+
+	int option = -1;
+	int valido = 1;
+	while(valido){
+		printf("Escoge una opción: \n\t1.Ingresar registro desde consola \n\t2.Borrado\n\t3.Impresion\n\t4.Salir\n");
+		scanf("%d",&option);
+		Estudiante es;
+		switch(option){
+			case 1:
+				es = stdinLec();
+				menor = insercion(est,es,i,menor);
+				i++;
+				break;
+			case 4:
+				break;
+		}
+	}
+
 	return 0;
 }
