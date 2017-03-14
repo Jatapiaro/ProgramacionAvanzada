@@ -1,3 +1,7 @@
+/*
+*Diego Jesús Romano
+*Jacobo Misael Tapia de la Rosa
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -10,10 +14,64 @@ typedef struct Estudiante {
   short siguiente;
 } Estudiante;
 
-
-
 void impresion(Estudiante e){
-	printf("Matrícula: %s Nombre: %s Correo: %s Siguiente: %hd\n", e.matricula, e.nombre, e.correo, e.siguiente);
+	printf("Matrícula: %s Nombre: %s Correo: %s\n", e.matricula, e.nombre, e.correo);
+}
+
+void imprime(Estudiante estudiantes[1000],int menor){
+	while(estudiantes[menor].siguiente!=-2 && estudiantes[menor].siguiente!=-1){
+		impresion(estudiantes[menor]);
+		menor = estudiantes[menor].siguiente;
+	}
+}
+
+int borrado(Estudiante estudiantes[1000],int menor,int registros){
+
+	char mat[10];
+	scanf("%s",mat);
+	int min = menor;
+	int padre = min;
+
+	while(min != -1){
+		if(strcmp(estudiantes[min].nombre,mat)==0){
+			estudiantes[padre].siguiente = estudiantes[min].siguiente;
+			estudiantes[min].siguiente = -2;
+			break;
+		}else{
+			padre = min;
+			min = estudiantes[min].siguiente; 
+		}
+	}
+
+	FILE *fp;
+	fp = fopen ("estudiantes2.txt", "w");
+	int j = 0;
+	char *minor = estudiantes[0].nombre;
+	/*
+	* Recorremos el arreglo para buscar el menor
+	*/
+	for(int i=0;i<=registros;i++){
+		if(estudiantes[i].siguiente != -2 && strcmp(estudiantes[i].nombre,minor)<0){
+			j = i;
+			minor = estudiantes[j].nombre;
+		}
+	}
+	/*
+	*Metemos en el file el menor
+	*/
+	fprintf(fp, "%d\n",j);
+	/*
+	*Movemos el tamaño del int mas uno (\n) el
+	*apuntador, para empezar a escribir despúes
+	*/
+	long w = sizeof(int)+1;
+	fseek(fp,w,SEEK_END);
+	for(int i=0;i<=registros;i++){
+		fseek(fp,i*sizeof(Estudiante),SEEK_END);
+		fprintf(fp, "%s %s %s %hd\n", estudiantes[i].matricula,estudiantes[i].nombre,estudiantes[i].correo,estudiantes[i].siguiente);
+	}
+	fclose(fp);
+	return j;
 }
 
 
@@ -75,7 +133,7 @@ int insercion(Estudiante estudiantes[1000],Estudiante e,int registros,int pequen
 	* Recorremos el arreglo para buscar el menor
 	*/
 	for(int i=0;i<=registros;i++){
-		if(strcmp(estudiantes[i].nombre,minor)<0){
+		if(estudiantes[i].siguiente != -2 && strcmp(estudiantes[i].nombre,minor)<0){
 			j = i;
 			minor = estudiantes[j].nombre;
 		}
@@ -102,6 +160,7 @@ int insercion(Estudiante estudiantes[1000],Estudiante e,int registros,int pequen
 Estudiante stdinLec(){
 	printf("Escribe matricula nombre correo separados por una espacio\n");
 	Estudiante e;
+	const char *nombre;
 	scanf("%s %s %s",e.matricula,e.nombre,e.correo);
 	e.siguiente = 0;
 	return e;
@@ -153,7 +212,15 @@ int main()
 				menor = insercion(est,es,i,menor);
 				i++;
 				break;
+			case 2:
+				//menor = borrado(est,menor,regs);
+				printf("Checar código, no funciona bien\n");
+				break;
+			case 3:
+				imprime(est,menor);
+				break;
 			case 4:
+				valido = 0;
 				break;
 		}
 	}
